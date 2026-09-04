@@ -1,0 +1,81 @@
+name: Tests & Linting
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: delisushio_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+    
+    - name: Install dependencies
+      run: poetry install
+    
+    - name: Django system checks
+      run: poetry run python manage.py check
+      env:
+        DJANGO_DB_ENGINE: django.db.backends.postgresql
+        DJANGO_DB_NAME: delisushio_test
+        DJANGO_DB_USER: postgres
+        DJANGO_DB_PASSWORD: postgres
+        DJANGO_DB_HOST: localhost
+        DJANGO_DB_PORT: 5432
+    
+    - name: Run tests
+      run: poetry run python manage.py test
+      env:
+        DJANGO_DB_ENGINE: django.db.backends.postgresql
+        DJANGO_DB_NAME: delisushio_test
+        DJANGO_DB_USER: postgres
+        DJANGO_DB_PASSWORD: postgres
+        DJANGO_DB_HOST: localhost
+        DJANGO_DB_PORT: 5432
+    
+    - name: Run linting (flake8)
+      run: poetry run flake8 apps config --max-line-length=100 --ignore=E501,W503
+      continue-on-error: true
+    
+    - name: Run linting (pylint) - apps only
+      run: poetry run pylint apps --disable=missing-docstring,duplicate-code
+      continue-on-error: true

@@ -1,0 +1,43 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        language_version: python3.11
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile', 'black']
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--ignore=E501,W503']
+        exclude: 'migrations/|venv/|.venv/'
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: pylint-3.0.3
+    hooks:
+      - id: pylint
+        args: ['--disable=missing-docstring,duplicate-code']
+        exclude: 'migrations/|venv/|.venv/'
+        additional_dependencies: ['django']
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.1
+    hooks:
+      - id: pyupgrade
+        args: ['--py311-plus']

@@ -6,3 +6,18 @@ media/
 staticfiles/
 .env
 *.log
+# Track Django app files (don't ignore these!)
+!apps/
+!apps/**/
+!config/
+!config/**/
+!templates_jinja2/
+!templates_jinja2/**/
+!static/
+!static/**/
+!manage.py
+!pyproject.toml
+!poetry.lock
+!seed_example.py
+!sqlite_legacy_dump.json
+!README.md

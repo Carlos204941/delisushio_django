@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Menu — Delisushio{% endblock %}
+
+{% block content %}
+<h1>Our Menu</h1>
+
+{% if search_query %}
+    <p>Search results for "{{ search_query }}".</p>
+{% endif %}
+
+<div class="category-filters">
+    <a href="{{ url('products:list') }}{% if search_query %}?q={{ search_query }}{% endif %}" class="{{ 'active' if not selected_category else '' }}">All</a>
+    {% for value, label in categories %}
+        <a href="?category={{ value }}{% if search_query %}&q={{ search_query }}{% endif %}" class="{{ 'active' if selected_category == value else '' }}">{{ label }}</a>
+    {% endfor %}
+</div>
+
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
+            <h3><a href="{{ url('products:detail', kwargs={'pk': product.id_product}) }}">{{ product.name }}</a></h3>
+            <p>{{ product.get_category_display() }} &middot; Spice: {{ product.get_spice_level_display() }}</p>
+            <p class="price">${{ '%.2f'|format(product.price) }}</p>
+            <form method="post" action="{{ url('products:add_to_cart', kwargs={'pk': product.id_product}) }}">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit">Add to cart</button>
+            </form>
+        </div>
+    {% else %}
+        <p>No products available right now.</p>
+    {% endfor %}
+</div>
+{% endblock %}

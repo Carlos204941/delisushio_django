@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Order detail — Delisushio{% endblock %}
+{% block content %}
+<a href="{{ url('orders:list') }}">&larr; My orders</a>
+<h1>Order {{ order.id_order|string|truncate(8, True, '') }}</h1>
+<p><span class="badge {{ order.status }}">{{ order.get_status_display() }}</span></p>
+
+<table>
+    <thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Line total</th></tr></thead>
+    <tbody>
+    {% for item in order.items.all() %}
+        <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ '%.2f'|format(item.unit_price) }}</td>
+            <td>${{ '%.2f'|format(item.line_total) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>Subtotal: ${{ '%.2f'|format(order.subtotal) }}</p>
+<p>Discount: ${{ '%.2f'|format(order.promotion_discount) }}</p>
+<p><strong>Total: ${{ '%.2f'|format(order.total) }}</strong></p>
+
+{% if order.delivery_address %}
+<h3>Delivery to</h3>
+<p>{{ order.delivery_address.street }} {{ order.delivery_address.number }}, {{ order.delivery_address.postal_code }}<br>
+{{ order.delivery_address.delivery_zone }} &middot; {{ order.delivery_address.phone_number }}</p>
+{% endif %}
+<p>Delivery date: {{ order.delivery_date }}</p>
+{% if order.allergens_notes %}<p>Notes: {{ order.allergens_notes }}</p>{% endif %}
+
+<div style="margin-top: 20px;">
+    {% if order.status == 'PENDING' or order.status == 'CONFIRMED' %}
+        <a href="{{ url('orders:update', kwargs={'pk': order.id_order}) }}" class="btn btn-secondary">Edit status</a>
+        <a href="{{ url('orders:delete', kwargs={'pk': order.id_order}) }}" class="btn btn-danger">Cancel order</a>
+    {% endif %}
+</div>
+{% endblock %}

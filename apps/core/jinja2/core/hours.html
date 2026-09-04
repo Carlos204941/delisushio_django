@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Hours — Delisushio{% endblock %}
+{% block content %}
+<h1>Business hours</h1>
+<table>
+    <thead><tr><th>Day</th><th>Status</th><th>Open</th><th>Close</th></tr></thead>
+    <tbody>
+    {% for entry in hours %}
+        <tr>
+            <td>{{ entry.get_day_of_week_display() }}</td>
+            <td>{{ 'Open' if entry.is_open else 'Closed' }}</td>
+            <td>{{ entry.opening_time if entry.is_open else '—' }}</td>
+            <td>{{ entry.closing_time if entry.is_open else '—' }}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">Hours haven't been set yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

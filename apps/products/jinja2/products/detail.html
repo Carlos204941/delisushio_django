@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} — Delisushio{% endblock %}
+
+{% block content %}
+<a href="{{ url('products:list') }}">&larr; Back to menu</a>
+
+<div class="product-card" style="max-width: 480px; margin-top: 16px;">
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% endif %}
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>{{ product.get_category_display() }} &middot; Spice: {{ product.get_spice_level_display() }}</p>
+    {% if product.allergens %}
+        <p>Allergens: {{ product.allergens|join(', ') }}</p>
+    {% endif %}
+    <p class="price">${{ '%.2f'|format(product.price) }}</p>
+    <p>{{ product.stock_quantity }} in stock</p>
+
+    <form method="post" action="{{ url('products:add_to_cart', kwargs={'pk': product.id_product}) }}">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1">
+        <button type="submit">Add to cart</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My orders — Delisushio{% endblock %}
+{% block content %}
+<h1>My orders</h1>
+{% if orders|length == 0 %}
+    <p>You haven't placed any orders yet.</p>
+{% else %}
+    <table>
+        <thead><tr><th>Order</th><th>Status</th><th>Total</th><th>Delivery date</th><th></th></tr></thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id_order|string|truncate(8, True, '') }}</td>
+                <td><span class="badge {{ order.status }}">{{ order.get_status_display() }}</span></td>
+                <td>${{ '%.2f'|format(order.total) }}</td>
+                <td>{{ order.delivery_date }}</td>
+                <td><a href="{{ url('orders:detail', kwargs={'pk': order.id_order}) }}">View</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

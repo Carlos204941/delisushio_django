@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Delisushio{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+
+<p><strong>Total: ${{ '%.2f'|format(cart.total) }}</strong> ({{ cart.item_count }} items)</p>
+
+<form method="post" class="card-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    {% for field in form %}
+        <p>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}<div class="messages error">{{ error }}</div>{% endfor %}
+        </p>
+    {% endfor %}
+    <button type="submit">Place order</button>
+</form>
+<p><a href="{{ url('orders:address_create') }}">+ Add a new delivery address</a></p>
+{% endblock %}

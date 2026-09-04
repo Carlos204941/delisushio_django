@@ -1,0 +1,179 @@
+[
+{
+  "model": "sessions.session",
+  "pk": "s8598itsvdmmzjfbjcy1tt3wys4hvjfw",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWmmUyzUpXvOQGamg6CmTSisjHdXEha6_e-9_zIDbes0bFWXYU7mYtCcfjcmeWjeQbpTvhUrJa_LzHZX7EGr7UvS5_Vw_w4mqtO3juhw7BAQwPEY2GtwkkhIucEojjVK07Spa6PzAiER-xHOgaALGoHM-wPelTfo:1wjfg4:_7gnr1LwBwrbEhEiupI7fYbelkcPsF1WrBF2Zhwgbao",
+    "expire_date": "2026-07-28T16:08:12.203Z"
+  }
+},
+{
+  "model": "authentication.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$P33sEBcB7vVg63cm2rxFHT$8dT55oEJhEGTGw3Pui0cfTRF2WjhU2xfavIoRYYguo0=",
+    "last_login": null,
+    "is_superuser": true,
+    "email": "admin@delisushio.local",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_staff": true,
+    "date_joined": "2026-07-14T15:47:06.428Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$6C7KDzUwo8xSu3CIaDFJ6F$YDLAAixUTbQPtAfxgn3LT2HecQ/fdrrsgz1lUapKI6Y=",
+    "last_login": "2026-07-14T16:08:12.202Z",
+    "is_superuser": true,
+    "email": "carlos@example.com",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_staff": true,
+    "date_joined": "2026-07-14T15:58:44.835Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "category": "RAW",
+    "name": "Salmon Nigiri (2pc)",
+    "description": "Fresh salmon over seasoned rice.",
+    "price": "6.50",
+    "image": "",
+    "is_available": true,
+    "stock_quantity": 40,
+    "spice_level": 0,
+    "allergens": [
+      "fish"
+    ]
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "category": "POKE",
+    "name": "Spicy Tuna Poke Bowl",
+    "description": "Tuna, rice, edamame, spicy mayo.",
+    "price": "13.75",
+    "image": "",
+    "is_available": true,
+    "stock_quantity": 25,
+    "spice_level": 2,
+    "allergens": [
+      "fish",
+      "soy"
+    ]
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "category": "VEG",
+    "name": "Avocado Cucumber Roll",
+    "description": "Classic veggie roll, 8 pieces.",
+    "price": "7.00",
+    "image": "",
+    "is_available": true,
+    "stock_quantity": 30,
+    "spice_level": 0,
+    "allergens": []
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "category": "HARU",
+    "name": "Vegetable Harumaki (4pc)",
+    "description": "Crispy fried spring rolls.",
+    "price": "5.50",
+    "image": "",
+    "is_available": true,
+    "stock_quantity": 20,
+    "spice_level": 1,
+    "allergens": [
+      "gluten"
+    ]
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 1,
+  "fields": {
+    "day_of_week": 0,
+    "is_open": false,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 2,
+  "fields": {
+    "day_of_week": 1,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 3,
+  "fields": {
+    "day_of_week": 2,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 4,
+  "fields": {
+    "day_of_week": 3,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 5,
+  "fields": {
+    "day_of_week": 4,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 6,
+  "fields": {
+    "day_of_week": 5,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+},
+{
+  "model": "core.businesshours",
+  "pk": 7,
+  "fields": {
+    "day_of_week": 6,
+    "is_open": true,
+    "opening_time": "11:00:00",
+    "closing_time": "21:30:00"
+  }
+}
+]

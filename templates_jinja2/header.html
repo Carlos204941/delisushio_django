@@ -1,0 +1,115 @@
+<header class="site-header">
+  <div class="wrap">
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <details class="order-alert">
+      <summary class="order-alert-toggle" title="Pending orders">
+        <span
+          class="order-alert-light {{ 'is-on' if superuser_pending_orders_count > 0 else 'is-off' }}"
+        ></span>
+        <span class="order-alert-count"
+          >{{ superuser_pending_orders_count }}</span
+        >
+      </summary>
+      <div class="order-alert-panel">
+        <div class="order-alert-header-row">
+          <h4>Pending Orders</h4>
+          <label class="sound-switch" for="sound-notification-toggle">
+            <input id="sound-notification-toggle" type="checkbox" checked />
+            <span>Sound</span>
+          </label>
+        </div>
+        {% if superuser_pending_orders_count == 0 %}
+        <p>No pending orders right now.</p>
+        {% else %}
+        <ul>
+          {% for pending_order in superuser_pending_orders %}
+          <li>
+            <div>
+              <strong
+                >#{{ pending_order.id_order|string|truncate(8, True, '')
+                }}</strong
+              ><br />
+              {{ pending_order.user.email }}<br />
+              <small
+                >{{ pending_order.created_at }}{% if
+                pending_order.delivery_address %} · {{
+                pending_order.delivery_address.delivery_zone }}{% endif
+                %}</small
+              >
+            </div>
+            <form
+              method="post"
+              action="{{ url('orders:admin_confirm_received', kwargs={'pk': pending_order.id_order}) }}"
+            >
+              <input
+                type="hidden"
+                name="csrfmiddlewaretoken"
+                value="{{ csrf_token }}"
+              />
+              <button type="submit" class="btn btn-secondary">
+                Confirm received
+              </button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </details>
+    {% endif %}
+
+    <a class="logo" href="{{ url('products:list') }}">Delisushio</a>
+
+    <nav>
+      <form
+        method="get"
+        action="{{ url('products:list') }}"
+        class="header-search"
+        role="search"
+      >
+        <label for="global-sushi-search" class="visually-hidden"
+          >Search sushi by name</label
+        >
+        <input
+          id="global-sushi-search"
+          type="search"
+          name="q"
+          value="{{ request.GET.get('q', '') }}"
+          placeholder="Search sushi..."
+        />
+        <button
+          type="submit"
+          class="search-button"
+          aria-label="Search sushi by name"
+        >
+          <span aria-hidden="true">🔍</span>
+          <span>Search</span>
+        </button>
+      </form>
+      <a href="{{ url('products:list') }}">Menu</a>
+      <a href="{{ url('core:hours') }}">Hours</a>
+      {% if request.user.is_authenticated %}
+      <a href="{{ url('orders:cart') }}">Cart</a>
+      <a href="{{ url('orders:list') }}">My Orders</a>
+      <a href="{{ url('authentication:profile') }}"
+        >{{ request.user.first_name or request.user.email }}</a
+      >
+      <form
+        method="post"
+        action="{{ url('authentication:logout') }}"
+        class="inline-form"
+      >
+        <input
+          type="hidden"
+          name="csrfmiddlewaretoken"
+          value="{{ csrf_token }}"
+        />
+        <button type="submit" class="link-button">Log out</button>
+      </form>
+      {% else %}
+      <a href="{{ url('authentication:login') }}">Log in</a>
+      <a href="{{ url('authentication:register') }}">Sign up</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

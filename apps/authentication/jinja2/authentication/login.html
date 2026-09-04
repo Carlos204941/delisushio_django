@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Log in — Delisushio{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<form method="post" class="card-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    {% for field in form %}
+        <p>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}<div class="messages error">{{ error }}</div>{% endfor %}
+        </p>
+    {% endfor %}
+    {% if form.non_field_errors() %}
+        <div class="messages error">{{ form.non_field_errors()|join(' ') }}</div>
+    {% endif %}
+    <button type="submit">Log in</button>
+</form>
+<p><a href="{{ url('authentication:password_reset_request') }}">Forgot your password?</a></p>
+<p>No account? <a href="{{ url('authentication:register') }}">Sign up</a></p>
+{% endblock %}

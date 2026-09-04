@@ -1,0 +1,25 @@
+[project]
+name = "delisushio"
+version = "0.1.0"
+description = "Sushi delivery Django app"
+authors = [
+    {name = "Carlos204941",email = "calinmtzhdz2@gmail.com"}
+]
+requires-python = "^3.12"
+dependencies = [
+    "django (>=6.0.7,<7.0.0)",
+    "pillow (>=12.3.0,<13.0.0)",
+    "django-resized (>=1.0.3,<2.0.0)",
+    "djangorestframework (>=3.17.1,<4.0.0)",
+    "django-rest-passwordreset (>=1.6.0,<2.0.0)",
+    "jinja2 (>=3.1.6,<4.0.0)",
+    "psycopg[binary] (>=3.2.9,<4.0.0)"
+]
+
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

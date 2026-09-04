@@ -1,0 +1,932 @@
+/* Import Premium Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    /* Modern Minimalist Palette */
+    --ink: #1A1A1A;         /* Rich Charcoal (Text) */
+    --accent: #E54A2B;      /* Salmon Red (Appetite-stimulating CTA) */
+    --accent-dark: #d43d20;
+    --secondary: #748E63;   /* Matcha Green (Fresh accents) */
+    --secondary-dark: #5f7550;
+    --bg: #FAFAFA;          /* Rice White (Background) */
+    --card: #ffffff;
+    --border: #E5E7EB;      /* Soft modern gray */
+    
+    /* Soft UI Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    
+    /* Transitions */
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Upgrade */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-top: 0;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ================= HEADER ================= */
+.site-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+.site-header .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 24px;
+    flex-wrap: wrap;
+}
+.site-header .logo { 
+    margin-right: auto; 
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    text-decoration: none; 
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.header-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+    position: relative;
+}
+
+.header-search input {
+    width: 240px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+.header-search input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(229, 74, 43, 0.1);
+    background: #fff;
+}
+
+.header-search button {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.header-search button:hover { background: #000; }
+
+.search-button { display: inline-flex; align-items: center; gap: 6px; }
+.visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; 
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ================= ORDER ALERT (ADMIN) ================= */
+.order-alert { position: relative; }
+
+.order-alert-toggle {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+.order-alert-toggle:hover { background: var(--bg); }
+.order-alert-toggle::-webkit-details-marker { display: none; }
+
+.order-alert-light {
+    width: 10px; height: 10px; border-radius: 999px; display: inline-block;
+    border: 2px solid #fff; box-shadow: 0 0 0 1px var(--border);
+    position: absolute; top: 6px; right: 6px;
+}
+
+.order-alert-light.is-on {
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(229, 74, 43, 0.3);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(229, 74, 43, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(229, 74, 43, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 74, 43, 0); }
+}
+.order-alert-light.is-off { background: #d1d5db; }
+
+.order-alert-count {
+    font-size: 0.85rem; font-weight: 600; color: var(--ink); margin-left: 16px; 
+}
+
+.order-alert-panel {
+    position: absolute;
+    top: 45px;
+    right: 0; 
+    width: min(400px, 90vw);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    z-index: 40;
+    overflow: hidden;
+}
+.order-alert-panel h4 { margin: 0; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; }
+
+.order-alert-header-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 16px 20px; border-bottom: 1px solid var(--border); background: #fafafa;
+}
+.sound-switch { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #4b5563; cursor: pointer; }
+.sound-switch input { width: auto; margin: 0; }
+
+.order-alert-panel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-height: 400px; overflow-y: auto; }
+.order-alert-panel li {
+    border-bottom: 1px solid var(--border); padding: 16px 20px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: var(--transition);
+}
+.order-alert-panel li:last-child { border-bottom: none; }
+.order-alert-panel li:hover { background: #fafafa; }
+.order-alert-panel li small { color: #6b7280; font-size: 0.8rem; }
+
+/* ================= NAVIGATION ================= */
+nav { display: flex; align-items: center; gap: 8px; }
+nav a, .link-button {
+    text-decoration: none; color: var(--ink); font-size: 0.9rem; font-weight: 500;
+    padding: 8px 16px; border-radius: 999px; transition: var(--transition);
+}
+nav a:hover, .link-button:hover { background: var(--bg); color: var(--accent); }
+.link-button { background: none; border: none; cursor: pointer; font: inherit; padding: 8px 16px; }
+.inline-form { display: inline; }
+
+/* ================= MAIN & MESSAGES ================= */
+main { min-height: 70vh; padding: 40px 24px; }
+
+.messages { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 12px; }
+.messages .message {
+    padding: 14px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 500;
+    display: flex; align-items: center; gap: 12px; border-left: 4px solid;
+}
+.messages .success { background: #ecfdf5; color: #065f46; border-color: #10b981; }
+.messages .error { background: #fef2f2; color: #991b1b; border-color: #ef4444; }
+.messages .warning { background: #fffbeb; color: #92400e; border-color: #f59e0b; }
+.messages .info { background: #eff6ff; color: #1e40af; border-color: #3b82f6; }
+
+/* ================= PRODUCT GRID (E-COMMERCE CORE) ================= */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+.product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+.product-card img { 
+    width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform 0.4s ease;
+}
+.product-card:hover img { transform: scale(1.05); }
+
+/* Wrap your product card text/price in a div with class="card-body" for best results */
+.product-card .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+.product-card h3 { margin: 0 0 8px; font-size: 1.25rem; font-family: 'Playfair Display', serif; }
+.product-card p { color: #6b7280; font-size: 0.9rem; margin-bottom: 16px; flex-grow: 1; }
+
+.price { font-weight: 700; color: var(--ink); font-size: 1.1rem; font-family: 'Inter', sans-serif; }
+.price::before { content: '$'; font-size: 0.9rem; }
+
+.category-filters { margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+.category-filters a {
+    display: inline-block; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border);
+    text-decoration: none; color: #4b5563; font-size: 0.85rem; font-weight: 500; transition: var(--transition); background: #fff;
+}
+.category-filters a:hover { border-color: var(--ink); color: var(--ink); }
+.category-filters a.active { 
+    background: var(--ink); color: #fff; border-color: var(--ink); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* ================= FORMS ================= */
+form.card-form, .form-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 32px; max-width: 520px; box-shadow: var(--shadow-sm); margin: 40px auto;
+}
+form.card-form h2, .form-card h2 { text-align: center; margin-bottom: 24px; }
+form p { margin: 16px 0; }
+label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; color: #4b5563; }
+input, select, textarea {
+    width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px;
+    font: inherit; font-size: 0.95rem; background: #fff; transition: var(--transition);
+}
+input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229, 74, 43, 0.1);
+}
+
+/* ================= BUTTONS ================= */
+button, .btn {
+    background: var(--accent); color: #fff; border: none; padding: 12px 24px;
+    border-radius: 999px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+    text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: var(--transition); box-shadow: 0 4px 6px -1px rgba(229, 74, 43, 0.2);
+}
+button:hover, .btn:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 8px -1px rgba(229, 74, 43, 0.3); }
+button:active, .btn:active { transform: translateY(0); }
+
+.btn-secondary { background: var(--ink); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.btn-secondary:hover { background: #000; }
+
+.btn-danger { background: #fff; color: #dc2626; border: 1px solid #fecaca; box-shadow: none; }
+.btn-danger:hover { background: #fef2f2; border-color: #f87171; }
+
+/* ================= TABLES & BADGES ================= */
+table { 
+    width: 100%; border-collapse: collapse; margin-top: 20px; background: var(--card);
+    border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+}
+th { 
+    text-align: left; padding: 16px 20px; background: #fafafa; font-size: 0.8rem; 
+    font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;
+}
+td { text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafafa; }
+
+.badge {
+    display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em;
+}
+.badge.PENDING { background: #fef3c7; color: #92400e; }
+.badge.CONFIRMED { background: #dbeafe; color: #1e40af; }
+.badge.DELIVERED { background: #d1fae5; color: #065f46; }
+.badge.CANCELLED { background: #fee2e2; color: #991b1b; }
+
+/* ================= FOOTER ================= */
+.site-footer {
+    text-align: center; padding: 40px 20px; color: #9ca3af; font-size: 0.85rem;
+    border-top: 1px solid var(--border); margin-top: 60px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 720px) {
+    .site-header .wrap { gap: 12px; }
+    .header-search { order: 3; width: 100%; margin: 8px 0 0; }
+    .header-search input { width: 100%; }
+
+    .order-alert-panel {
+        position: fixed; top: auto; bottom: 0; left: 0; right: 0;
+        width: 100%; border-radius: 24px 24px 0 0; max-height: 70vh;
+    }
+
+    .order-alert-panel li { flex-direction: column; align-items: flex-start; }
+    
+    .product-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .product-card h3 { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .product-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   PRODUCT DETAIL PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* 1. Modern "Back to Menu" Link */
+main .wrap > a:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 24px;
+    transition: var(--transition);
+}
+
+main .wrap > a:first-child:hover {
+    color: var(--accent);
+    transform: translateX(-2px); /* Subtle slide effect on hover */
+}
+
+/* 2. Product Detail Card Layout */
+/* Overrides the inline styles to center it and give it premium padding */
+.product-card {
+    padding: 32px !important; 
+    margin: 0 auto !important; 
+    box-shadow: var(--shadow-md);
+    border-radius: 24px;
+    max-width: 520px !important; /* Slightly wider for better breathing room */
+}
+
+/* 3. Elegant Title */
+.product-card h1 {
+    font-size: 2.25rem;
+    margin: 24px 0 12px;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.1;
+    color: var(--ink);
+}
+
+/* 4. Description & Meta Info */
+.product-card p {
+    color: #4b5563;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* 5. Price (Fixing the double dollar sign issue) */
+.product-card .price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 20px 0 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* IMPORTANT: Removes the CSS-generated $ since your HTML already has $ */
+.product-card .price::before {
+    content: none !important;
+}
+
+/* 6. Stock Quantity */
+.product-card p:last-of-type {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-bottom: 24px;
+}
+
+/* 7. Add to Cart Form */
+.product-card form {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-card label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+}
+
+.product-card input[type="number"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: #fff;
+}
+
+.product-card input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(229, 74, 43, 0.1);
+}
+
+/* Full-width, high-converting Add to Cart button */
+.product-card button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 6px -1px rgba(229, 74, 43, 0.2);
+    margin-top: 8px;
+}
+
+.product-card button[type="submit"]:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(229, 74, 43, 0.3);
+}
+
+/* 8. Mobile Adjustments */
+@media (max-width: 480px) {
+    .product-card {
+        padding: 24px !important;
+    }
+    .product-card h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* ==========================================================================
+   MENU / PRODUCT LIST PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* 1. Page Title */
+main .wrap > h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+/* 2. Search Results Message */
+main .wrap > p:first-of-type {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+/* 3. Category Filters (Refined) */
+.category-filters {
+    margin-bottom: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-filters a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+    background: #fff;
+}
+
+.category-filters a:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+    transform: translateY(-1px);
+}
+
+.category-filters a.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* 4. Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 8px;
+}
+
+/* 5. Product Card (Without card-body wrapper) */
+.product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    padding: 0;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+
+.product-card img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+/* 6. Product Name Link */
+.product-card h3 {
+    margin: 20px 20px 8px;
+    font-size: 1.25rem;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.3;
+}
+
+.product-card h3 a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.product-card h3 a:hover {
+    color: var(--accent);
+}
+
+/* 7. Category & Spice Info */
+.product-card p {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin: 0 20px 12px;
+    flex-grow: 1;
+}
+
+/* 8. Price (Fix double dollar sign) */
+.product-card .price {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    margin: 0 20px 16px;
+}
+
+/* IMPORTANT: Remove CSS-generated $ since HTML already has it */
+.product-card .price::before {
+    content: none !important;
+}
+
+/* 9. Add to Cart Form */
+.product-card form {
+    margin: 0 20px 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.product-card button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 2px 4px -1px rgba(229, 74, 43, 0.2);
+}
+
+.product-card button[type="submit"]:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(229, 74, 43, 0.3);
+}
+
+/* 10. Empty State */
+.product-grid p {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+    padding: 40px 0;
+}
+
+/* 11. Mobile Adjustments */
+@media (max-width: 720px) {
+    main .wrap > h1 {
+        font-size: 2rem;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    
+    .product-card h3 {
+        font-size: 1rem;
+        margin: 16px 16px 6px;
+    }
+    
+    .product-card p {
+        margin: 0 16px 10px;
+    }
+    
+    .product-card .price {
+        margin: 0 16px 12px;
+    }
+    
+    .product-card form {
+        margin: 0 16px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   AUTH PAGES - LOGIN / REGISTER / PASSWORD RESET (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* 1. Auth Page Title */
+main .wrap > h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* 2. Auth Form Card */
+.card-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 440px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-md);
+}
+
+/* 3. Form Field Groups */
+.card-form p {
+    margin: 0 0 20px;
+}
+
+.card-form label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+.card-form input[type="text"],
+.card-form input[type="email"],
+.card-form input[type="password"],
+.card-form input[type="number"],
+.card-form select,
+.card-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition);
+    background: #fff;
+    color: var(--ink);
+}
+
+.card-form input:focus,
+.card-form select:focus,
+.card-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(229, 74, 43, 0.1);
+}
+
+/* 4. Field Error Messages */
+.card-form .messages {
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+.card-form .messages.error {
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid #dc2626;
+}
+
+/* 5. Non-field Errors (Invalid credentials, etc.) */
+.card-form > .messages.error {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+}
+
+/* 6. Submit Button */
+.card-form button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 6px -1px rgba(229, 74, 43, 0.2);
+    margin-top: 8px;
+}
+
+.card-form button[type="submit"]:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(229, 74, 43, 0.3);
+}
+
+.card-form button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* 7. Links Below Form */
+.card-form + p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.card-form + p a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.card-form + p a:hover {
+    color: var(--accent-dark);
+    text-decoration: underline;
+}
+
+/* 8. Mobile Adjustments */
+@media (max-width: 480px) {
+    .card-form {
+        padding: 28px 24px;
+        border-radius: 20px;
+    }
+    
+    main .wrap > h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* ==========================================================================
+   RESET CODE PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* Code input field - make it look like a verification code input */
+.card-form input[type="text"] {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    padding: 14px 16px;
+}
+
+/* Center the label for code input */
+.card-form p:has(input[type="text"]) label {
+    text-align: center;
+}
+
+/* ==========================================================================
+   PASSWORD RESET REQUEST PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* Description text below title */
+main .wrap > h1 + p {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Email input field */
+.card-form input[type="email"] {
+    text-align: left;
+    font-size: 1rem;
+    padding: 14px 16px;
+}
+
+/* Center the label for email input */
+.card-form p:has(input[type="email"]) label {
+    text-align: left;
+}
+
+/* ==========================================================================
+   PROFILE PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* Link below profile form */
+.card-form + p {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.9rem;
+}
+
+.card-form + p a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.card-form + p a:hover {
+    color: var(--accent-dark);
+    transform: translateX(4px); /* Subtle slide right on hover */
+}
+
+/* Profile form fields - ensure consistent spacing */
+.card-form p {
+    margin-bottom: 20px;
+}
+
+/* Make the form slightly wider for profile fields */
+.card-form {
+    max-width: 480px;
+}
+
+/* ==========================================================================
+   REGISTRATION PAGE (CSS-ONLY UPGRADE)
+   ========================================================================== */
+
+/* Registration form - slightly wider for multiple fields */
+.card-form {
+    max-width: 480px;
+}
+
+/* Ensure consistent spacing between registration fields */
+.card-form p {
+    margin-bottom: 20px;
+}
+
+/* "Already have an account?" link */
+.card-form + p {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.card-form + p a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.card-form + p a:hover {
+    color: var(--accent-dark);
+    text-decoration: underline;
+}

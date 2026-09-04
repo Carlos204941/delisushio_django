@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Delete address — Delisushio{% endblock %}
+{% block content %}
+<h1>Delete this address?</h1>
+<p>{{ address.street }} {{ address.number }}, {{ address.postal_code }}</p>
+<form method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <button type="submit" class="btn-danger">Yes, delete</button>
+    <a href="{{ url('orders:address_list') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

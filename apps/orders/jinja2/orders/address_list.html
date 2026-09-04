@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Delivery addresses — Delisushio{% endblock %}
+{% block content %}
+<h1>Delivery addresses</h1>
+<a href="{{ url('orders:address_create') }}" class="btn">+ Add address</a>
+<table>
+    <thead><tr><th>Street</th><th>Zone</th><th>Phone</th><th></th></tr></thead>
+    <tbody>
+    {% for address in addresses %}
+        <tr>
+            <td>{{ address.street }} {{ address.number }}, {{ address.postal_code }}</td>
+            <td>{{ address.delivery_zone }}</td>
+            <td>{{ address.phone_number }}</td>
+            <td>
+                <a href="{{ url('orders:address_update', kwargs={'pk': address.id_delivery}) }}">Edit</a>
+                &middot;
+                <a href="{{ url('orders:address_delete', kwargs={'pk': address.id_delivery}) }}">Delete</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">No addresses yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

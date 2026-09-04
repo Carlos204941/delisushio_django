@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sign up — Delisushio{% endblock %}
+{% block content %}
+<h1>Create your account</h1>
+<form method="post" class="card-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    {% for field in form %}
+        <p>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}<div class="messages error">{{ error }}</div>{% endfor %}
+        </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+</form>
+<p>Already have an account? <a href="{{ url('authentication:login') }}">Log in</a></p>
+{% endblock %}

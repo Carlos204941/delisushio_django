@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Your cart — Delisushio{% endblock %}
+{% block content %}
+<h1>Your cart</h1>
+
+{% if cart_items|length == 0 %}
+    <p>Your cart is empty. <a href="{{ url('products:list') }}">Browse the menu &rarr;</a></p>
+{% else %}
+    <table>
+        <thead>
+            <tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Subtotal</th><th></th></tr>
+        </thead>
+        <tbody>
+        {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product_name_snapshot }}</td>
+                <td>
+                    <form method="post" action="{{ url('orders:cart_item_update', kwargs={'item_id': item.id}) }}" class="inline-form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width:70px;">
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+                <td>${{ '%.2f'|format(item.product.price) }}</td>
+                <td>${{ '%.2f'|format(item.subtotal) }}</td>
+                <td>
+                    <form method="post" action="{{ url('orders:cart_item_remove', kwargs={'item_id': item.id}) }}" class="inline-form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" class="btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Total: ${{ '%.2f'|format(cart_total) }}</strong></p>
+    <a href="{{ url('orders:checkout') }}" class="btn">Checkout</a>
+{% endif %}
+{% endblock %}

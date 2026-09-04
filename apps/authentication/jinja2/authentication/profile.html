@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}My profile — Delisushio{% endblock %}
+{% block content %}
+<h1>My profile</h1>
+<form method="post" class="card-form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    {% for field in form %}
+        <p>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </p>
+    {% endfor %}
+    <button type="submit">Save changes</button>
+</form>
+<p><a href="{{ url('orders:address_list') }}">Manage delivery addresses &rarr;</a></p>
+{% endblock %}

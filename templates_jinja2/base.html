@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Delisushio{% endblock %}</title>
+    <link rel="stylesheet" href="{{ static('css/style.css') }}" />
+  </head>
+  <body>
+    <!-- Header Component -->
+    {% include "header.html" %}
+
+    <!-- Main Content -->
+    <main class="wrap">
+      <!-- Flash Messages Component -->
+      {% include "messages.html" %}
+
+      <!-- Page Content -->
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer Component -->
+    {% include "footer.html" %}
+
+    <!-- Admin Order Polling Script -->
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <script>
+      (function () {
+        const pendingCountEl = document.querySelector(".order-alert-count");
+        if (!pendingCountEl) return;
+
+        const pollUrl = "{{ url('orders:admin_pending_count') }}";
+        const storageKey = "superuser_pending_orders_count";
+        const soundEnabledKey = "superuser_pending_orders_sound_enabled";
+        const initialCount = Number(pendingCountEl.textContent || "0");
+        const savedCount = Number(
+          window.localStorage.getItem(storageKey) || initialCount,
+        );
+        let currentCount = Number.isFinite(savedCount)
+          ? savedCount
+          : initialCount;
+        const soundToggleEl = document.getElementById(
+          "sound-notification-toggle",
+        );
+        let soundEnabled = window.localStorage.getItem(soundEnabledKey) !== "0";
+        const lightEl = document.querySelector(".order-alert-light");
+
+        if (soundToggleEl) {
+          soundToggleEl.checked = soundEnabled;
+          soundToggleEl.addEventListener("change", function () {
+            soundEnabled = Boolean(soundToggleEl.checked);
+            window.localStorage.setItem(
+              soundEnabledKey,
+              soundEnabled ? "1" : "0",
+            );
+          });
+        }
+
+        function updateIndicator(nextCount) {
+          pendingCountEl.textContent = String(nextCount);
+          if (!lightEl) return;
+          lightEl.classList.toggle("is-on", nextCount > 0);
+          lightEl.classList.toggle("is-off", nextCount === 0);
+        }
+
+        function playNotification() {
+          try {
+            const context = new (
+              window.AudioContext || window.webkitAudioContext
+            )();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = "sine";
+            oscillator.frequency.value = 880;
+            gain.gain.value = 0.0001;
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            const now = context.currentTime;
+            gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+            oscillator.start(now);
+            oscillator.stop(now + 0.26);
+          } catch (error) {}
+        }
+
+        async function pollPendingCount() {
+          try {
+            const response = await fetch(pollUrl, {
+              method: "GET",
+              credentials: "same-origin",
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            });
+            if (!response.ok) return;
+            const payload = await response.json();
+            const nextCount = Number(payload.pending_count || 0);
+            if (!Number.isFinite(nextCount)) return;
+            if (soundEnabled && nextCount > currentCount) playNotification();
+            currentCount = nextCount;
+            window.localStorage.setItem(storageKey, String(currentCount));
+            updateIndicator(currentCount);
+          } catch (error) {}
+        }
+
+        updateIndicator(initialCount);
+        window.localStorage.setItem(storageKey, String(currentCount));
+        window.setInterval(pollPendingCount, 15000);
+      })();
+    </script>
+    {% endif %}
+  </body>
+</html>
